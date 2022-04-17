@@ -9,7 +9,7 @@ echo "Create directory at \"$app_dir\":"
 mkdir "$app_dir" && cd "$app_dir"
 echo "Clone git repository:"
 git clone https://github.com/philbu/crawler.git "git"
-echo "Create virtual environment for python (virtualenv)"
+echo "Create virtual environment for python (python3-virtualenv necessary)"
 python3 -m virtualenv env && source env/bin/activate && pip install -r git/requirements.txt
 
 echo "Create cronjob script:"
