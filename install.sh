@@ -17,5 +17,5 @@ echo "$app_dir/env/bin/python3 -m $app_dir/git/crawler" >> cronjob.sh
 
 echo "Next steps:"
 echo "1. Add missing information to git/crawler/config.ini"
-echo "2. Create a cronjob with `crontab -e` and add"
+echo "2. Create a cronjob with 'crontab -e' and add"
 echo "*/5 * * * * $app_dir/git/cronjob.sh"
