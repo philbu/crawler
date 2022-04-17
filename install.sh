@@ -14,7 +14,8 @@ python3 -m virtualenv env && source env/bin/activate && pip install -r git/requi
 
 echo "Create cronjob script:"
 echo "#!/bin/bash" > "$app_dir/cronjob.sh"
-echo "$app_dir/env/bin/python3 -m $app_dir/git/crawler" >> "$app_dir/cronjob.sh"
+echo "cd $app_dir/git" >> "$app_dir/cronjob.sh"
+echo "$app_dir/env/bin/python3 -m crawler" >> "$app_dir/cronjob.sh"
 chmod +x "$app_dir/cronjob.sh"
 
 echo "Next steps:"
