@@ -24,10 +24,10 @@ url = f"{base}?fromStation={from_station}&toStation={to_station}&sapTickets=fals
 class Connection:
     departure: int
     arrival: int
-    labels: list[str]
-    delays: list[int]
-    arr_delays: list[int]
-    cancelled: list[bool]
+    labels: List[str]
+    delays: List[int]
+    arr_delays: List[int]
+    cancelled: List[bool]
 
 
 @dataclass
