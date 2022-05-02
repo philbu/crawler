@@ -37,7 +37,7 @@ class Connection:
 @dataclass
 class AnalysisJson:
     status: int
-    connections: Optional[List[Connection]]
+    connections: Optional[Connection]
     error_msg: Optional[str]
 
 
@@ -48,38 +48,31 @@ def current_milli_time() -> str:
 def main() -> None:
     request_time = str(int(time.time()))
     headers = {"user-agent": user_agent}
-    r = requests.get(url + current_milli_time(), headers=headers)
+    r = requests.get(url, headers=headers)
     analysisJson = AnalysisJson(r.status_code, None, "")
 
     if r.status_code == requests.codes.ok:
         connections: List[Connection] = []
-        for c in r.json():
-            year = datetime.fromtimestamp(c["plannedDepartureTime"] / 1000).strftime(
-                "%Y"
-            )
-            month = datetime.fromtimestamp(c["plannedDepartureTime"] / 1000).strftime(
-                "%m"
-            )
-            day = datetime.fromtimestamp(c["plannedDepartureTime"] / 1000).strftime(
-                "%d"
-            )
-            time_of_day = datetime.fromtimestamp(
-                c["plannedDepartureTime"] / 1000
-            ).strftime("%H:%M")
-            conn = Connection(
-                c["plannedDepartureTime"],
-                c["realtime"],
-                c["delayInMinutes"],
-                c["destination"],
-                c["cancelled"],
-                c["sev"],
-                year,
-                month,
-                day,
-                time_of_day,
-            )
-            connections.append(conn)
-        analysisJson.connections = connections
+        c = r.json()[0]
+        year = datetime.fromtimestamp(c["plannedDepartureTime"] / 1000).strftime("%Y")
+        month = datetime.fromtimestamp(c["plannedDepartureTime"] / 1000).strftime("%m")
+        day = datetime.fromtimestamp(c["plannedDepartureTime"] / 1000).strftime("%d")
+        time_of_day = datetime.fromtimestamp(c["plannedDepartureTime"] / 1000).strftime(
+            "%H:%M"
+        )
+        conn = Connection(
+            c["plannedDepartureTime"],
+            c["realtime"],
+            c.get("delayInMinutes", 8888),
+            c["destination"],
+            c["cancelled"],
+            c["sev"],
+            year,
+            month,
+            day,
+            time_of_day,
+        )
+        analysisJson.connections = conn
     else:
         analysisJson.error_msg = r.reason
 
