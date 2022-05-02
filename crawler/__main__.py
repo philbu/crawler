@@ -31,7 +31,7 @@ class Connection:
     year: str
     month: str
     day: str
-    time: str
+    time_of_day: str
 
 
 @dataclass
@@ -63,9 +63,9 @@ def main() -> None:
             day = datetime.fromtimestamp(c["plannedDepartureTime"] / 1000).strftime(
                 "%d"
             )
-            time = datetime.fromtimestamp(c["plannedDepartureTime"] / 1000).strftime(
-                "%H:%M"
-            )
+            time_of_day = datetime.fromtimestamp(
+                c["plannedDepartureTime"] / 1000
+            ).strftime("%H:%M")
             conn = Connection(
                 c["plannedDepartureTime"],
                 c["realtime"],
@@ -76,7 +76,7 @@ def main() -> None:
                 year,
                 month,
                 day,
-                time,
+                time_of_day,
             )
             connections.append(conn)
         analysisJson.connections = connections
